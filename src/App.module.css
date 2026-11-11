@@ -1,0 +1,26 @@
+
+.container {
+  min-height: 100vh;
+  background-color: #f1f5f9;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.heading {
+  color: #1e293b;
+  font-size: 34px;
+  margin-bottom: 10px;
+}
+
+.subtitle {
+  color: #64748b;
+  margin-bottom: 35px;
+}
+
+.productList {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  flex-wrap: wrap;
+  gap: 25px;
+}

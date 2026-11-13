@@ -1,33 +1,34 @@
 
-import React, { useState } from "react";
+import React from "react";
+import { useDispatch } from "react-redux";
+import { addToCart } from "./redux/cartSlice";
 import styles from "./ProductCard.module.css";
 
-function ProductCard({ name, image, description }) {
-  const [showDetails, setShowDetails] = useState(false);
+function ProductCard({ product }) {
+  const dispatch = useDispatch();
 
-  const toggleDetails = () => {
-    setShowDetails(!showDetails);
+  const handleAddToCart = () => {
+    dispatch(addToCart(product));
+    alert(`${product.name} added to cart!`);
   };
 
   return (
     <div className={styles.card}>
       <img
-        src={image}
-        alt={name}
-        className={styles.productImage}
+        src={product.image}
+        alt={product.name}
+        className={styles.image}
       />
 
-      <h2>{name}</h2>
+      <h2>{product.name}</h2>
 
-      <button onClick={toggleDetails}>
-        {showDetails ? "Hide Details" : "Show Details"}
+      <p>{product.description}</p>
+
+      <h3>₹{product.price}</h3>
+
+      <button onClick={handleAddToCart}>
+        Add to Cart
       </button>
-
-      {showDetails && (
-        <p className={styles.description}>
-          {description}
-        </p>
-      )}
     </div>
   );
 }

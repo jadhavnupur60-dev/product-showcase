@@ -3,6 +3,8 @@ const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const dns = require("dns");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 require("dotenv").config();
 
@@ -10,6 +12,8 @@ require("dotenv").config();
 dns.setServers(["8.8.8.8", "8.8.4.4"]);
 
 const Product = require("./models/Product");
+const User = require("./models/User");
+const auth = require("./middleware/auth");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -18,12 +22,144 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
-// In-memory cart
-let cart = [];
+// Separate in-memory carts for each user
+const carts = {};
 
 // Home route
 app.get("/", (req, res) => {
   res.send("Product Showcase Backend is Running!");
+});
+
+// USER REGISTRATION
+app.post("/register", async (req, res) => {
+  try {
+    const { name, email, password } = req.body;
+
+    if (
+      typeof name !== "string" || !name.trim() ||
+      typeof email !== "string" ||
+      !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) ||
+      typeof password !== "string" ||
+      password.length < 6
+    ) {
+      return res.status(400).json({
+        message: "Enter a valid name, email and password (minimum 6 characters)"
+      });
+    }
+
+    const existingUser = await User.findOne({
+      email: email.trim().toLowerCase()
+    });
+
+    if (existingUser) {
+      return res.status(400).json({
+        message: "User already exists"
+      });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const user = new User({
+      name: name.trim(),
+      email: email.trim().toLowerCase(),
+      password: hashedPassword
+    });
+
+    await user.save();
+
+    if (!process.env.JWT_SECRET) {
+      return res.status(500).json({
+        message: "JWT secret is not configured"
+      });
+    }
+
+    const token = jwt.sign(
+      { userId: user._id.toString() },
+      process.env.JWT_SECRET,
+      { expiresIn: "1h" }
+    );
+
+    res.status(201).json({
+      message: "Registration successful",
+      token,
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email
+      }
+    });
+
+  } catch (error) {
+    if (error.code === 11000) {
+      return res.status(400).json({
+        message: "User already exists"
+      });
+    }
+
+    res.status(500).json({
+      message: "Registration failed",
+      error: error.message
+    });
+  }
+});
+
+// USER LOGIN
+app.post("/login", async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    if (
+      typeof email !== "string" ||
+      typeof password !== "string"
+    ) {
+      return res.status(400).json({
+        message: "Email and password are required"
+      });
+    }
+
+    const user = await User.findOne({
+      email: email.trim().toLowerCase()
+    });
+
+    if (!user) {
+      return res.status(401).json({
+        message: "Invalid email or password"
+      });
+    }
+
+    const isMatch = await bcrypt.compare(
+      password,
+      user.password
+    );
+
+    if (!isMatch) {
+      return res.status(401).json({
+        message: "Invalid email or password"
+      });
+    }
+
+    const token = jwt.sign(
+      { userId: user._id.toString() },
+      process.env.JWT_SECRET,
+      { expiresIn: "1h" }
+    );
+
+    res.status(200).json({
+      message: "Login successful",
+      token,
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email
+      }
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      message: "Login failed",
+      error: error.message
+    });
+  }
 });
 
 // GET all products with pagination
@@ -65,7 +201,6 @@ app.post("/products", async (req, res) => {
   try {
     const { name, price, description, imageUrl } = req.body;
 
-    // Validation
     if (
       typeof name !== "string" ||
       !name.trim() ||
@@ -104,8 +239,8 @@ app.post("/products", async (req, res) => {
   }
 });
 
-// POST product to cart
-app.post("/cart", async (req, res) => {
+// POST product to cart (PROTECTED)
+app.post("/cart", auth, async (req, res) => {
   try {
     const { productId } = req.body;
 
@@ -123,14 +258,22 @@ app.post("/cart", async (req, res) => {
       });
     }
 
-    const existingItem = cart.find(
+    const userId = req.user.userId;
+
+    if (!carts[userId]) {
+      carts[userId] = [];
+    }
+
+    const userCart = carts[userId];
+
+    const existingItem = userCart.find(
       item => item.id === product._id.toString()
     );
 
     if (existingItem) {
       existingItem.quantity += 1;
     } else {
-      cart.push({
+      userCart.push({
         id: product._id.toString(),
         name: product.name,
         price: product.price,
@@ -141,7 +284,7 @@ app.post("/cart", async (req, res) => {
 
     res.status(201).json({
       message: "Product added to cart successfully",
-      cart
+      cart: userCart
     });
 
   } catch (error) {
@@ -152,9 +295,11 @@ app.post("/cart", async (req, res) => {
   }
 });
 
-// GET cart items
-app.get("/cart", (req, res) => {
-  res.status(200).json(cart);
+// GET logged-in user's cart (PROTECTED)
+app.get("/cart", auth, (req, res) => {
+  const userId = req.user.userId;
+
+  res.status(200).json(carts[userId] || []);
 });
 
 // Connect MongoDB and start server

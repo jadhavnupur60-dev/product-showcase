@@ -1,8 +1,10 @@
 
-import React from "react";
-import ProductCard from "./ProductCard";
-import Cart from "./Cart";
+import React, { Suspense, lazy } from "react";
 import styles from "./App.module.css";
+
+// Lazy load components
+const ProductCard = lazy(() => import("./ProductCard"));
+const Cart = lazy(() => import("./Cart"));
 
 function App() {
   const products = [
@@ -44,16 +46,18 @@ function App() {
         Explore our collection of amazing products
       </p>
 
-      <div className={styles.productList}>
-        {products.map((product) => (
-          <ProductCard
-            key={product.id}
-            product={product}
-          />
-        ))}
-      </div>
+      <Suspense fallback={<p>Loading components...</p>}>
+        <div className={styles.productList}>
+          {products.map((product) => (
+            <ProductCard
+              key={product.id}
+              product={product}
+            />
+          ))}
+        </div>
 
-      <Cart />
+        <Cart />
+      </Suspense>
     </div>
   );
 }

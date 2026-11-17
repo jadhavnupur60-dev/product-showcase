@@ -1,0 +1,25 @@
+
+const ImageMinimizerPlugin = require("image-minimizer-webpack-plugin");
+
+module.exports = {
+  webpack: {
+    configure: (webpackConfig) => {
+      webpackConfig.plugins.push(
+        new ImageMinimizerPlugin({
+          minimizer: {
+            implementation: ImageMinimizerPlugin.sharpMinify,
+            options: {
+              encodeOptions: {
+                jpeg: { quality: 80 },
+                png: { quality: 80 },
+                webp: { quality: 80 },
+              },
+            },
+          },
+        })
+      );
+
+      return webpackConfig;
+    },
+  },
+};

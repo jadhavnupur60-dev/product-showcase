@@ -1,6 +1,7 @@
 
 import React, { Suspense, lazy } from "react";
 import styles from "./App.module.css";
+import InstallPWA from "./components/InstallPWA";
 
 // Lazy load components
 const ProductCard = lazy(() => import("./ProductCard"));
@@ -40,6 +41,10 @@ function App() {
 
   return (
     <div className={styles.container}>
+
+      {/* PWA Installation Component */}
+      <InstallPWA />
+
       <h1 className={styles.heading}>Product Showcase</h1>
 
       <p className={styles.subtitle}>
@@ -58,6 +63,7 @@ function App() {
 
         <Cart />
       </Suspense>
+
     </div>
   );
 }

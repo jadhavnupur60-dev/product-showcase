@@ -22,4 +22,16 @@ module.exports = {
       return webpackConfig;
     },
   },
+
+  jest: {
+    configure: (jestConfig) => {
+      jestConfig.collectCoverageFrom = [
+        "src/**/*.{js,jsx}",
+        "!src/index.js",
+        "!src/reportWebVitals.js",
+      ];
+
+      return jestConfig;
+    },
+  },
 };

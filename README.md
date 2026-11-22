@@ -1,3 +1,6 @@
+
+[![Deploy PWA to Netlify](https://github.com/jadhavnupur60-dev/product-showcase/actions/workflows/netlify.yml/badge.svg)](https://github.com/jadhavnupur60-dev/product-showcase/actions/workflows/netlify.yml)
+
 # Product Showcase – React Application
 
 A responsive React application that displays products, allows users to add products to a shopping cart, and supports Progressive Web App (PWA) installation.

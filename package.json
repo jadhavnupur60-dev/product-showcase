@@ -41,6 +41,7 @@
     "image-minimizer-webpack-plugin": "^5.0.0",
     "jest-fetch-mock": "^4.2.0",
     "sharp": "^0.35.5",
-    "source-map-explorer": "^2.5.3"
+    "source-map-explorer": "^2.5.3",
+    "yaml": "^2.9.1"
   }
 }

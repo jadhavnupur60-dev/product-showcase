@@ -12,10 +12,11 @@
     "web-vitals": "^6.2.3"
   },
   "scripts": {
-    "start": "craco start",
-    "build": "craco build",
+    "start": "next start",
+    "build": "next build",
     "test": "craco test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "dev": "next dev"
   },
   "eslintConfig": {
     "extends": [

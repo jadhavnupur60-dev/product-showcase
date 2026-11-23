@@ -38,6 +38,7 @@
   },
   "devDependencies": {
     "@craco/craco": "^7.1.0",
+    "@netlify/plugin-nextjs": "^5.16.8",
     "@testing-library/jest-dom": "^8.0.0",
     "@testing-library/react": "^16.3.3",
     "image-minimizer-webpack-plugin": "^5.0.0",

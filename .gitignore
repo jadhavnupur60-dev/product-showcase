@@ -24,3 +24,6 @@ yarn-error.log*
 
 # Next.js build files
 .next/
+
+# Sentry Config File
+.env.sentry-build-plugin

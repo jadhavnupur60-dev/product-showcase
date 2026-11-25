@@ -1,69 +1,105 @@
-# Product Showcase – Next.js SSR Migration
+# Product Showcase
 
-A responsive Product Showcase web application migrated from React to **Next.js** with Server-Side Rendering (SSR). The application displays products, provides individual product detail pages, and supports shopping cart functionality using Redux Toolkit.
+A responsive product showcase web application built with **Next.js, React, and Redux Toolkit**. The project demonstrates product browsing, dynamic product pages, and state management, with Sentry integration for error monitoring.
 
 ## Features
 
-- **Server-Side Rendering (SSR):** Uses Next.js `getServerSideProps()` to fetch product data on the server for each request.
-- **Product Listing:** Displays products with images, names, prices, and descriptions.
-- **Product Details:** Individual dynamic product pages using the Next.js Pages Router.
-- **Shopping Cart:** Add products, remove products, and clear the cart.
-- **Quantity Management:** Automatically increases quantity when an existing product is added again.
-- **Cart Persistence:** Saves cart data in browser localStorage.
-- **Responsive Design:** CSS Modules for product presentation and styling.
-- **SEO Support:** Uses Next.js Head to add page titles and meta descriptions.
+- Responsive product showcase interface
+- Dynamic product detail pages
+- Redux Toolkit for state management
+- Next.js Pages Router
+- Error monitoring with Sentry
+- Server-side and browser-side error monitoring
+- Sentry example page for testing error reporting
 
 ## Technologies Used
 
-| Technology | Purpose |
-|---|---|
-| Next.js | SSR and page routing |
-| React | User interface |
-| Redux Toolkit | Shopping cart state management |
-| React Redux | Connecting React components to Redux |
-| JavaScript | Application logic |
-| HTML5 | Page structure |
-| CSS Modules | Component styling |
-| Node.js | Development environment |
-| JSON | Product data storage |
+- Next.js
+- React
+- JavaScript
+- Redux Toolkit
+- React Redux
+- CSS
+- Sentry Next.js SDK
+- Netlify
 
-## Project Structure
+## Sentry Error Monitoring
 
-```text
-product-showcase/
-│
-├── pages/
-│   ├── _app.js
-│   ├── index.js
-│   └── product/
-│       └── [id].js
-│
-├── store/
-│   └── store.js
-│
-├── src/
-│   ├── redux/
-│   │   ├── cartSlice.js
-│   │   └── store.js
-│   ├── App.module.css
-│   ├── ProductCard.js
-│   ├── ProductCard.module.css
-│   ├── ProductList.js
-│   ├── Cart.js
-│   └── index.css
-│
-├── public/
-│   └── products.json
-│
-├── server/
-│   └── Express backend files
-│
-├── package.json
-└── README.md
+This project integrates Sentry to help monitor and identify application errors.
+
+Sentry configuration includes:
+
+- `instrumentation.js`
+- `instrumentation-client.js`
+- `sentry.server.config.js`
+- `sentry.edge.config.js`
+- `pages/_error.jsx`
+- `next.config.js`
+
+A sample testing page is available at:
+
+`/sentry-example-page`
+
+## Installation and Setup
+
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/jadhavnupur60-dev/product-showcase.git
+   ```
+
+2. Navigate to the project folder:
+
+   ```bash
+   cd product-showcase
+   ```
+
+3. Install dependencies:
+
+   ```bash
+   npm install
+   ```
+
+4. Start the development server:
+
+   ```bash
+   npm run dev
+   ```
+
+5. Open:
+
+   `http://localhost:3000`
+
+## Production Build
+
+Run:
+
+```bash
+npm run build
 ```
 
-## Server-Side Rendering Implementation
+To start the production server:
 
-The application uses Next.js `getServerSideProps()` in the homepage and dynamic product page.
+```bash
+npm run start
+```
 
-- The homepage reads product information from `public/products.json` on the
+## Deployment
+
+The project is deployed using Netlify.
+
+Live Demo: https://product-showcase-eg3q.netlify.app
+
+## GitHub Repository
+
+https://github.com/jadhavnupur60-dev/product-showcase
+
+## Security
+
+- Never upload authentication tokens or secret environment files.
+- `.env.sentry-build-plugin` must remain excluded from Git.
+- Keep private credentials in environment variables.
+
+## Author
+
+Product Showcase Project

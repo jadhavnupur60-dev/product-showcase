@@ -4,6 +4,8 @@
   "private": true,
   "dependencies": {
     "@reduxjs/toolkit": "^2.14.0",
+    "@sentry/react": "^11.17.0",
+    "next": "^16.4.6",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
     "react-redux": "^9.3.1",
@@ -11,10 +13,11 @@
     "web-vitals": "^6.2.3"
   },
   "scripts": {
-    "start": "craco start",
-    "build": "craco build",
+    "start": "next start",
+    "build": "next build",
     "test": "craco test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "dev": "next dev"
   },
   "eslintConfig": {
     "extends": [
@@ -36,6 +39,7 @@
   },
   "devDependencies": {
     "@craco/craco": "^7.1.0",
+    "@netlify/plugin-nextjs": "^5.16.8",
     "@testing-library/jest-dom": "^8.0.0",
     "@testing-library/react": "^16.3.3",
     "image-minimizer-webpack-plugin": "^5.0.0",

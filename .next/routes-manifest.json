@@ -42,15 +42,15 @@
   "dataRoutes": [
     {
       "page": "/",
-      "dataRouteRegex": "^/_next/data/pIhBVnn_q4VBib_WEGIlA/index\\.json$"
+      "dataRouteRegex": "^/_next/data/6A7ZlmV4NAKU7SlgZytIF/index\\.json$"
     },
     {
       "page": "/product/[id]",
       "routeKeys": {
         "nxtPid": "nxtPid"
       },
-      "dataRouteRegex": "^/_next/data/pIhBVnn_q4VBib_WEGIlA/product/([^/]+?)\\.json$",
-      "namedDataRouteRegex": "^/_next/data/pIhBVnn_q4VBib_WEGIlA/product/(?<nxtPid>[^/]+?)\\.json$"
+      "dataRouteRegex": "^/_next/data/6A7ZlmV4NAKU7SlgZytIF/product/([^/]+?)\\.json$",
+      "namedDataRouteRegex": "^/_next/data/6A7ZlmV4NAKU7SlgZytIF/product/(?<nxtPid>[^/]+?)\\.json$"
     }
   ],
   "rsc": {
